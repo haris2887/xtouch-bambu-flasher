@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XTouch Bambu Bridge — Flash Tool</title>
+  <script type="module"
+    src="https://unpkg.com/esp-web-tools@10/dist/web/install-button.js">
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                   Helvetica, Arial, sans-serif;
+      background: #0f1117;
+      color: #e2e8f0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+
+    .card {
+      background: #1a1d27;
+      border: 1px solid #2d3148;
+      border-radius: 12px;
+      max-width: 560px;
+      width: 100%;
+      padding: 2.5rem 2rem;
+    }
+
+    .logo { font-size: 2rem; margin-bottom: 0.5rem; }
+
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #f1f5f9;
+      margin-bottom: 0.25rem;
+    }
+
+    .subtitle {
+      font-size: 0.875rem;
+      color: #64748b;
+      margin-bottom: 2rem;
+    }
+
+    h2 {
+      font-size: 0.875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #94a3b8;
+      margin: 1.5rem 0 0.75rem;
+    }
+
+    ul, ol {
+      padding-left: 1.25rem;
+      line-height: 1.8;
+      font-size: 0.9375rem;
+      color: #cbd5e1;
+    }
+
+    .flash-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 2rem 0 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    esp-web-install-button::part(button),
+    esp-web-install-button button {
+      background: #3b82f6;
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 600;
+      padding: 0.75rem 1.75rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    esp-web-install-button::part(button):hover,
+    esp-web-install-button button:hover { background: #2563eb; }
+
+    .version-badge {
+      font-size: 0.8125rem;
+      color: #64748b;
+      background: #0f1117;
+      border: 1px solid #2d3148;
+      border-radius: 999px;
+      padding: 0.3rem 0.75rem;
+      white-space: nowrap;
+    }
+
+    .notice {
+      font-size: 0.8125rem;
+      color: #475569;
+      line-height: 1.6;
+      border-top: 1px solid #2d3148;
+      padding-top: 1.25rem;
+      margin-top: 1.25rem;
+    }
+
+    .notice a { color: #3b82f6; text-decoration: none; }
+    .notice a:hover { text-decoration: underline; }
+
+    .error { color: #f87171; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="logo">&#x26A1;</div>
+    <h1>XTouch Bambu Bridge</h1>
+    <p class="subtitle">Flash firmware to your CYD (ESP32-2432S028R) touchscreen</p>
+
+    <h2>Requirements</h2>
+    <ul>
+      <li>Chrome or Edge browser (Web Serial API)</li>
+      <li>USB-A to Micro-USB cable (data capable, not charge-only)</li>
+      <li>XTouch CYD board (ESP32-2432S028R)</li>
+    </ul>
+
+    <h2>Instructions</h2>
+    <ol>
+      <li>Connect your XTouch to this computer via USB</li>
+      <li>Click <strong>Flash XTouch</strong> below</li>
+      <li>Select the COM/Serial port when prompted</li>
+      <li>Wait ~30 seconds for flashing to complete</li>
+      <li>XTouch reboots &rarr; follow the on-screen WiFi setup</li>
+    </ol>
+
+    <div class="flash-row">
+      <esp-web-install-button manifest="manifest.json">
+        <button slot="activate">&#x26A1; Flash XTouch</button>
+      </esp-web-install-button>
+      <span class="version-badge" id="version-badge">Loading&hellip;</span>
+    </div>
+
+    <p class="notice">
+      This tool flashes firmware via the browser using
+      <a href="https://esphome.github.io/esp-web-tools/" target="_blank"
+         rel="noopener">ESP Web Tools</a>.
+      No software install required.<br>
+      To factory reset at any time: hold <strong>BOOT</strong>, press
+      <strong>RST</strong>, release both, then re-flash here.
+    </p>
+  </div>
+
+  <script>
+    fetch('manifest.json')
+      .then(function(r) { return r.json(); })
+      .then(function(m) {
+        var el = document.getElementById('version-badge');
+        el.textContent = 'v' + m.version;
+      })
+      .catch(function() {
+        var el = document.getElementById('version-badge');
+        el.textContent = 'version unknown';
+        el.classList.add('error');
+      });
+  </script>
+</body>
+</html>

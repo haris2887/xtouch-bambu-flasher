@@ -1,0 +1,16 @@
+{
+  "name": "XTouch Bambu Bridge",
+  "version": "0.0.0",
+  "new_install_prompt_erase": true,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        {
+          "path": "https://github.com/OWNER/xtouch-bambu-flasher/releases/download/v0.0.0/merged-firmware.bin",
+          "offset": 0
+        }
+      ]
+    }
+  ]
+}
